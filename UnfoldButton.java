@@ -1,8 +1,11 @@
+package com.ice.testgoodidea.view;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -41,6 +44,7 @@ public class UnfoldButton extends FloatingActionButton {
     private static final int DO_ROTATE = 1;//旋转动画
 
     List<Map<String,Object>> elementList = new ArrayList<>();//保存添加的button
+    private int totalAngle = 90;
 
     public UnfoldButton(final Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -88,7 +92,7 @@ public class UnfoldButton extends FloatingActionButton {
                 }
             });
             b.setVisibility(INVISIBLE);
-
+            b.setBackgroundTintList(ColorStateList.valueOf((int)element.get("color")));
             mBackground.addView(b);//添加
         }
 
@@ -128,7 +132,7 @@ public class UnfoldButton extends FloatingActionButton {
                 View view = mBackground.getChildAt(i);
                 view.setVisibility(VISIBLE);
                 //开始平移  第一个参数是view 第二个是角度
-                setTranslation(view, 90 / (cCount-1) * (i - 0));
+                setTranslation(view, totalAngle / (cCount-1) * (i - 0));
             }
             //开始旋转
             setRotateAnimation(this,DO_ROTATE);
@@ -147,13 +151,15 @@ public class UnfoldButton extends FloatingActionButton {
      * 添加button
      * 由于调用的时候一般都是在onCreate里面调用，所以直接添加到mBackground会有空指针异常
      * 所以先加入到一个链表，然后等绘制完成后再调用freshElement()添加
-     * @param imgSrc
-     * @param listener
+     * @param imgSrc  菜单的图标
+     * @param listener  菜单的点击事件
+     * @param color 菜单按钮的背景颜色
      */
-    public void addElement(int imgSrc, final OnClickListener listener) {
+    public void addElement(int imgSrc,int color, final OnClickListener listener) {
             Map<String,Object> map = new HashMap<>();
             map.put("img",imgSrc);
             map.put("listener",listener);
+            map.put("color",getResources().getColor(color));
             elementList.add(map);
     }
 
@@ -261,5 +267,9 @@ public class UnfoldButton extends FloatingActionButton {
             });
         }
 }
+
+    public void setAngle(int angle) {
+        this.totalAngle = angle;
+    }
 }
 
