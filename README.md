@@ -1,9 +1,9 @@
 # ExpendMenu
 
 用FloatingActionButton实现展开菜单
+效果图如下：
 
-<img src="https://www.ice97.cn/download/unfoldmenu.png" width="200" alt="效果图">
-
+<img src="https://www.ice97.cn/download/unfoldmenu3.jpg" height="300" alt="效果图">
 
 
 # 使用方法：
@@ -31,14 +31,18 @@
 
 ```
         UnfoldButton f = (UnfoldButton) findViewById(R.id.unfoldButton);
-        f.addElement(R.drawable.bestjay, new View.OnClickListener() {
+
+        //第一个是菜单图标  第二个是菜单背景颜色  第三个是点击回调
+        f.addElement(R.drawable.ic_menu_share,R.color.blue, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //这里写菜单的点击事件
+                Toast.makeText(UnfoldButtonActivity.this, "点击了", Toast.LENGTH_SHORT).show();
             }
         });
-        f.addElement(R.drawable.bestjay,null);//同上
-        f.addElement(R.drawable.bestjay,null);//同上
+        f.addElement(R.drawable.ic_menu_gallery,R.color.green,null);
+        f.addElement(R.drawable.ic_menu_send,R.color.grey,null);
+        f.setAngle(90);//这个是展开的总角度  建议取90的倍数
         f.setmScale(1);//设置弹出缩放的比例  1为不缩放 范围是0—1
         f.setLength(250);//设置弹出的距离
 ```
@@ -48,4 +52,4 @@
 name必须是background
 
 好了，这样就可以啦！
-如果你的弹出菜单个数不是三个，那么请修改expendMenu方法
+
